@@ -1,0 +1,13 @@
+### NTNU BlackBoard credentials ###
+username=
+password=
+
+# How many minutes to wait to check for new announcements
+interval=60
+
+### Bot ###
+#https://discordapp.com/channels/{server_id}/{channel_id} (from discord web app)
+channel_id=592794840534876180
+
+# Token for your bot (from Discord Developer Portal)
+token=
