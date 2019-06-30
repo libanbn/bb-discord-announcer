@@ -1,16 +1,19 @@
 package app;
 
+import app.util.WebTools;
+
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.util.NameValuePair;
-
-import app.util.WebTools;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+/**
+ * Interacts with NTNU Blackboard to get relevant announcement for your class subjects.
+ */
 public class BlackboardScraper {
     private WebClient client;
     private CookieManager cm;
@@ -18,8 +21,12 @@ public class BlackboardScraper {
     private String username;
     private String password;
 
-    private Thread event;
-
+    /**
+     * Sets up the client that will navigate though and get the announcements.
+     *
+     * @param username  FEIDE username
+     * @param password  FEIDE password
+     */
     public BlackboardScraper(String username, String password) {
         this.username = username;
         this.password = password;
@@ -27,16 +34,26 @@ public class BlackboardScraper {
         // Turn off console logging
         java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
 
-        // Define web browser
+        // Define web browser options optimized for Blackboard
         client = new WebClient(BrowserVersion.CHROME);
         client.getOptions().setJavaScriptEnabled(true);
         client.getOptions().setThrowExceptionOnScriptError(false);
         client.getOptions().setCssEnabled(false);
 
+        // Enable and save the cookie manager (so we can extract each cookies later)
         cm = client.getCookieManager();
         cm.setCookiesEnabled(true);
     }
 
+    /**
+     * Collects announcement from Blackboard using the given credentials.
+     * First, it logs into Blackboard using FEIDE and tries to go past all additional steps because of JS
+     * incompatibilities. By then, all cookies has been generated. The cookies is used to send a request to the
+     * Blackboard API to fetch the activity stream.
+     *
+     * @return                  Blackboard activity stream data as JSON string
+     * @throws IOException      when something goes wrong, ironically
+     */
     public String getStreamEntries() throws IOException {
         // Navigate to blackboard-feide login
         HtmlPage page = (HtmlPage) client.getPage("http://innsida.ntnu.no/blackboard");
@@ -44,14 +61,14 @@ public class BlackboardScraper {
         // Fetch the appropriate form to modify and send
         HtmlForm form = ((HtmlForm) page.getFormByName("f"));
 
-        // Assign user credentials
+        // Assign user credentials to the text fields
         form.getInputByName("feidename").setValueAttribute(username);
         form.getInputByName("password").setValueAttribute(password);
 
         // Press login button and grab the redirected page
         page = ((HtmlButton) page.getFirstByXPath("//button[@type='submit']")).click();
 
-        // Feide requires pressing the submit button after submission
+        // FEIDE requires pressing the submit button after submission (because of javscript issues)
         client.waitForBackgroundJavaScript(5000);
         page = ((HtmlSubmitInput) page.getElementById("postLoginSubmitButton")).click();
 
@@ -64,7 +81,7 @@ public class BlackboardScraper {
         page = ((HtmlHiddenInput) page.getFirstByXPath("//input[@name='SAMLResponse']")).click();
         client.waitForBackgroundJavaScript(5000);
 
-        // Get BB announcements through post request as Json
+        // Create a post request for BB announcements
         URL announcementUrl = new URL("https://ntnu.blackboard.com/webapps/streamViewer/streamViewer");
         WebRequest request = new WebRequest(announcementUrl, HttpMethod.POST);
 
@@ -83,7 +100,7 @@ public class BlackboardScraper {
         request.setAdditionalHeader("Cache-Control", "no-cache");
         request.setAdditionalHeader("Cookie", WebTools.cookiesAsRequestHeader(cm.getCookies()));
 
-        // Request the results, but it will empty and useless json
+        // Issues the request, but it will empty and useless json. To fix this, the same request must be sent again
         client.getPage(request);
         client.waitForBackgroundJavaScript(2000);
 

@@ -5,6 +5,8 @@ import app.util.Config;
 
 public class XLauncher {
     public static void main(String[] args) throws Exception {
+
+        // Loads values from the properties file
         String channelId    = Config.getInstance().getString("channel_id");
         String username     = Config.getInstance().getString("username");
         String password     = Config.getInstance().getString("password");
@@ -15,8 +17,5 @@ public class XLauncher {
         BlackboardScraper bs = new BlackboardScraper(username, password);
         AnnouncementController ac = new AnnouncementController(bs, interval);
         DiscordBot db = new DiscordBot(token, channelId, ac);
-
-        // Disconnect discord bot before this application shuts down
-        Runtime.getRuntime().addShutdownHook(new Thread(db::disconnect));
     }
 }
