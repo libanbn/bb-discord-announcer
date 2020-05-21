@@ -3,15 +3,12 @@ package app;
 import app.controller.AnnouncementController;
 import app.entity.Announcement;
 import app.listener.AnnouncementListener;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.awt.*;
 import java.time.Instant;
+import net.dv8tion.jda.JDA;
+import net.dv8tion.jda.JDABuilder;
+import net.dv8tion.jda.entities.TextChannel;
 
 /**
  * Posts announcements to a discord channel as a bot.
