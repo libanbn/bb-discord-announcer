@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 /**
@@ -28,10 +29,9 @@ public class DiscordBot implements AnnouncementListener {
      * @throws Exception    when the discord bot couldn't be created
      */
     public DiscordBot(String token, String channelId, AnnouncementController ac) throws Exception {
-        // TODO This is deprecated, see https://github.com/DV8FromTheWorld/JDA for official documentation
         dbot = new JDABuilder(AccountType.BOT)
                 .setToken(token)
-                .setGame(Game.of(Game.GameType.LISTENING, "Blackboard", "https://ntnu.blackboard.com"))
+                .setActivity(Activity.listening("Blackboard Garbage"))
                 .build()
                 .awaitReady();
 
