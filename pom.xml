@@ -8,6 +8,10 @@
     <artifactId>bb-discord-announcer</artifactId>
     <version>1.0.0</version>
 
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit -->
         <dependency>
@@ -29,7 +33,22 @@
             <artifactId>jsoup</artifactId>
             <version>1.11.3</version>
         </dependency>
+        <!-- https://github.com/DV8FromTheWorld/JDA -->
+        <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>4.1.1_154</version>
+        </dependency>
+
     </dependencies>
+    <!-- https://github.com/DV8FromTheWorld/JDA -->
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <name>jcenter-bintray</name>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -38,8 +57,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <release>12</release>
-                    <source>12</source>
+                    <release>11</release>
+                    <source>11</source>
                 </configuration>
             </plugin>
         </plugins>

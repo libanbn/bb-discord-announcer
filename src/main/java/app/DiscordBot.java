@@ -3,15 +3,15 @@ package app;
 import app.controller.AnnouncementController;
 import app.entity.Announcement;
 import app.listener.AnnouncementListener;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.awt.*;
 import java.time.Instant;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 /**
  * Posts announcements to a discord channel as a bot.
@@ -31,7 +31,7 @@ public class DiscordBot implements AnnouncementListener {
     public DiscordBot(String token, String channelId, AnnouncementController ac) throws Exception {
         dbot = new JDABuilder(AccountType.BOT)
                 .setToken(token)
-                .setGame(Game.of(Game.GameType.LISTENING, "Blackboard", "https://ntnu.blackboard.com"))
+                .setActivity(Activity.listening("Blackboard Garbage"))
                 .build()
                 .awaitReady();
 
