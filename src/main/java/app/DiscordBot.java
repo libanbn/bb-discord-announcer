@@ -17,6 +17,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
  * Posts announcements to a discord channel as a bot.
  */
 public class DiscordBot implements AnnouncementListener {
+
     private JDA dbot;
     private TextChannel txtChannel;
 
@@ -31,7 +32,7 @@ public class DiscordBot implements AnnouncementListener {
     public DiscordBot(String token, String channelId, AnnouncementController ac) throws Exception {
         dbot = new JDABuilder(AccountType.BOT)
                 .setToken(token)
-                .setActivity(Activity.listening("Blackboard Garbage"))
+                .setActivity(Activity.watching("Blackboard Garbage"))
                 .build()
                 .awaitReady();
 
