@@ -8,17 +8,19 @@ public class Announcement {
     private String title;
     private String body;
     private String author;
+    private String subject;
 
     private long timestamp;
     private boolean isRead;     // Has the announcement been read?
 
-    public Announcement(String id, String title, String body, long timestamp, String author) {
+    public Announcement(String id, String title, String body, long timestamp, String author, String subject) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.timestamp = timestamp;
         this.author = author;
         this.isRead = false;
+        this.subject = subject;
     }
 
     /**
@@ -27,6 +29,10 @@ public class Announcement {
      */
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -67,6 +73,10 @@ public class Announcement {
      */
     public boolean hasNotBeenRead() {
         return !isRead;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 
     /**

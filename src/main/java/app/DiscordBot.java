@@ -4,6 +4,8 @@ import app.controller.AnnouncementController;
 import app.entity.Announcement;
 import app.listener.AnnouncementListener;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import java.awt.*;
 import java.time.Instant;
 import net.dv8tion.jda.api.AccountType;
@@ -12,6 +14,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
+import org.slf4j.LoggerFactory;
 
 /**
  * Posts announcements to a discord channel as a bot.
@@ -26,10 +29,12 @@ public class DiscordBot implements AnnouncementListener {
      *
      * @param token         the Discord bots API token from Discord Developer Portal
      * @param channelId     channel id of the channel where the bot posts announcements
-     * @param ac            announcement controller that supplies the announcements
      * @throws Exception    when the discord bot couldn't be created
      */
-    public DiscordBot(String token, String channelId, AnnouncementController ac) throws Exception {
+    public DiscordBot(String token, String channelId) throws Exception {
+        Logger jdaLogger = (Logger) LoggerFactory.getLogger("net.dv8tion.jda");
+        jdaLogger.setLevel(Level.INFO);
+
         dbot = new JDABuilder(AccountType.BOT)
                 .setToken(token)
                 .setActivity(Activity.watching("Blackboard Garbage"))
@@ -39,9 +44,8 @@ public class DiscordBot implements AnnouncementListener {
         // Set the channel where announcements will be submitted
         txtChannel = dbot.getTextChannelById(channelId);
 
-        // Adds itself as event handler before releasing reference for the object triggering them
-        ac.addListener(this);
-        ac.startPeriodicalScraping();
+        // Only show errors after the bot is logged in
+        jdaLogger.setLevel(Level.ERROR);
     }
 
     /**
@@ -62,8 +66,8 @@ public class DiscordBot implements AnnouncementListener {
             // Create an embed for announcement
             EmbedBuilder embed = new EmbedBuilder()
                     .setTitle(a.getTitle())
-                    .setDescription(body)           // TODO replace this pseudo subject
-                    .setFooter(a.getAuthor().concat(" - Datakommunikasjon og nettverksprogrammering"), dbot.getSelfUser().getAvatarUrl())
+                    .setDescription(body)
+                    .setFooter(a.getAuthor().concat(" - ").concat(a.getSubject()), dbot.getSelfUser().getAvatarUrl())
                     .setTimestamp(Instant.ofEpochMilli(a.getTimestamp()))
                     .setColor(Color.GREEN);
 
@@ -81,7 +85,7 @@ public class DiscordBot implements AnnouncementListener {
 
         for (Announcement a : announcements) {
             embed.addField(a.getTitle(),
-                    a.getId().concat(" - ").concat(a.getAuthor()),
+                    a.getId().concat(" - ").concat(a.getSubject()),
                     false);
         }
 
@@ -94,7 +98,9 @@ public class DiscordBot implements AnnouncementListener {
      */
     @Override
     public void update(Announcement[] newAnnouncements) {
-        //publishAnnouncements(newAnnouncements);
-        publishAnnouncementTitles(newAnnouncements);
+        publishAnnouncements(newAnnouncements);
+
+        // TODO This will be used to get the overview of the announcement using Discord commands
+        //publishAnnouncementTitles(newAnnouncements);
     }
 }
