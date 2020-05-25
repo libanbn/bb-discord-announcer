@@ -15,7 +15,7 @@ public class XLauncher {
         int interval        = Config.getInstance().getInt("interval");
 
         NtnuBlackboardScraper bs = new NtnuBlackboardScraper(username, password);
-        AnnouncementController ac = new AnnouncementController(bs, 1);
+        AnnouncementController ac = new AnnouncementController(bs, interval);
         DiscordBot db = new DiscordBot(token, channelId);
 
         ac.addListener(db);
