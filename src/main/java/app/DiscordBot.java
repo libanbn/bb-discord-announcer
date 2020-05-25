@@ -1,6 +1,6 @@
 package app;
 
-import app.controller.AnnouncementController;
+import app.command.CommandManager;
 import app.entity.Announcement;
 import app.listener.AnnouncementListener;
 
@@ -40,6 +40,9 @@ public class DiscordBot implements AnnouncementListener {
                 .setActivity(Activity.watching("Blackboard Garbage"))
                 .build()
                 .awaitReady();
+
+        // Add command event lister
+        dbot.addEventListener(new CommandManager());
 
         // Set the channel where announcements will be submitted
         txtChannel = dbot.getTextChannelById(channelId);
