@@ -50,8 +50,7 @@ public class CommandManager extends ListenerAdapter {
                     break;
             }
             // If command format is wrong return a helper message
-        } else if (message[0].contains("!") || message[0].toLowerCase().contains("bb") ||
-            event.getMessage().getContentRaw().equalsIgnoreCase("!bb")) {
+        } else if (event.getMessage().getContentRaw().equalsIgnoreCase("!bb")) {
             event.getChannel().sendMessage("Please use this format: !bb COMMAND [options]").queue();
         }
     }
