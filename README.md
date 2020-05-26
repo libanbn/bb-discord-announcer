@@ -4,7 +4,7 @@ A discord bot for fetching and displaying blackboard announcements. Currently on
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. We also have a discord server to chat regarding development, help setting up the bot or general discussion, see
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. We also have a discord server to chat regarding development, help setting up the bot or general discussion, see this [link](https://discord.gg/a2sZxHR).
 
 ### Prerequisites
 
