@@ -54,7 +54,7 @@ Contribution guide will come shortly.
 
 ## Authors
 * **[PersonligFrelser](https://github.com/PersonligFrelser)** - *Initial work/creator*
-* **[Anicholasson](https://github.com/ANicholasson)** - *Contributor*
+* **[ANicholasson](https://github.com/ANicholasson)** - *Contributor*
 
 See also the list of 
 [contributors](https://github.com/PersonligFrelser/bb-discord-announcer/contributors) who 
