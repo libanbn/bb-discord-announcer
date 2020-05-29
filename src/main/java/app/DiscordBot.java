@@ -88,8 +88,8 @@ public class DiscordBot implements AnnouncementListener {
 
         for (Announcement a : announcements) {
             embed.addField(a.getTitle(),
-                    a.getId().concat(" - ").concat(a.getSubject()),
-                    false);
+                a.getSubject(),
+                false);
         }
 
         txtChannel.sendMessage(embed.build()).queue();

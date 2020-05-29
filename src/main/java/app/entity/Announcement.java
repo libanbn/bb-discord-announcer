@@ -4,7 +4,7 @@ package app.entity;
  * Contains the data for announcement
  */
 public class Announcement {
-    private String id;
+    private long id;
     private String title;
     private String body;
     private String author;
@@ -13,7 +13,7 @@ public class Announcement {
     private long timestamp;
     private boolean isRead;     // Has the announcement been read?
 
-    public Announcement(String id, String title, String body, long timestamp, String author, String subject) {
+    public Announcement(long id, String title, String body, long timestamp, String author, String subject) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -27,11 +27,11 @@ public class Announcement {
      * Return the id of the announcement.
      * @return      announcement id
      */
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
